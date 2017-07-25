@@ -146,6 +146,12 @@
 				weight -= 80;
 			}
 
+			// enemy is Forlorn Maiden or The Forlorn, add 1890 to encourage prioritization
+			if (battleCharacter.NpcId == 6737 || battleCharacter.NpcId == 6738)
+			{
+				weight += 1890;
+			}
+
 			return weight;
 		}
 
