@@ -428,9 +428,12 @@
 			var singleFate = FatebotSettings.Instance.ThisFateOnly;
 			if (!string.IsNullOrWhiteSpace(singleFate))
 			{
+				var listThisFateOnly = singleFate.Split(';')
+											.Select(f => f.Trim()).ToList();
+
 				fate =
 					FateManager.ActiveFates.FirstOrDefault(
-						f => string.Equals(f.Name, singleFate, StringComparison.InvariantCultureIgnoreCase));
+						f => listThisFateOnly.Any(tfo => tfo.ToLower().Contains(f.Name.ToLower())));
 
 				if (fate == null)
 				{
