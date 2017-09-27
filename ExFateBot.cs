@@ -18,9 +18,7 @@
 	using ff14bot.Objects;
 	using ff14bot.RemoteWindows;
 	using ff14bot.Settings;
-#if !RB_CN
 	using ff14bot.Pathing.Service_Navigation;
-#endif
 	using ff14bot.Windows.FateBotSettingsWindow;
 
 	using TreeSharp;
@@ -278,11 +276,7 @@
 		public override void Start()
 		{
 			Navigator.PlayerMover = new SlideMover();
-#if RB_CN
-			Navigator.NavigationProvider = new GaiaNavigator();
-#else
 			Navigator.NavigationProvider = new ServiceNavigationProvider();
-#endif
 			GameSettingsManager.FaceTargetOnAction = true;
 			GameSettingsManager.FlightMode = true;
 			TreeHooks.Instance.ClearAll();
@@ -301,11 +295,7 @@
 		{
 			CharacterSettings.Instance.AutoEquip = false;
 			CombatTargeting.Instance.Provider = new DefaultCombatTargetingProvider();
-#if RB_CN
-			var navigationProvider = Navigator.NavigationProvider as GaiaNavigator;
-#else
 			var navigationProvider = Navigator.NavigationProvider as ServiceNavigationProvider;
-#endif
 			if (navigationProvider != null)
 			{
 				navigationProvider.Dispose();
