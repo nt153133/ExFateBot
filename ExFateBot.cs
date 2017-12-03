@@ -142,8 +142,9 @@
 			get
 			{
 				ContextChangeHandler unit = obj => Poi.Current.Unit as BattleCharacter;
-				Composite[] composite0 = { null, null, null, null, null, null };
-				composite0[0] = new Decorator(
+				Composite[] composite0 = { null, null, null, null, null, null, null };
+                composite0[0] = new Decorator(ctx => AvoidanceManager.IsRunningOutOfAvoid, new ActionAlwaysSucceed());
+				composite0[1] = new Decorator(
 					obj =>
 					{
 						if (FateData == null)
@@ -153,7 +154,7 @@
 						return !FateData.IsValid;
 					},
 					new Action(obj => FateData = null));
-				composite0[1] = new Decorator(
+				composite0[2] = new Decorator(
 					obj =>
 					{
 						if (!this.Withinfate || FateData == null)
@@ -163,7 +164,7 @@
 						return Core.Player.ClassLevel > FateData.MaxLevel;
 					},
 					new Action(obj => ToDoList.LevelSync()));
-				composite0[2] = new Decorator(
+				composite0[3] = new Decorator(
 					obj =>
 					{
 						if (!shouldMoveIntoFate)
@@ -177,14 +178,14 @@
 						return FateData.Location.Distance2D(Core.Player.Location) <= FateData.HotSpot.Radius * 0.9;
 					},
 					new Action(obj => shouldMoveIntoFate = false));
-				composite0[3] = new Decorator(
+				composite0[4] = new Decorator(
 					obj => shouldMoveIntoFate,
 					CommonBehaviors.MoveAndStop(
 						obj => FateData.Location,
 						FateData != null ? FateData.HotSpot.Radius * 0.8f : 5f,
 						true,
 						"Moving back into fate radius"));
-				composite0[4] = new Decorator(
+				composite0[5] = new Decorator(
 					obj =>
 					{
 						var bc = obj as BattleCharacter;
